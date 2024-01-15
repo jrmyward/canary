@@ -11,7 +11,7 @@ module Canary
     end
 
     def call
-      timestamp = Time.now
+      timestamp = Time.now.utc
       stdout, stderr, status = Open3.capture3(command)
 
       log_entry = log_call(timestamp, stdout, stderr, status)

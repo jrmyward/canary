@@ -8,16 +8,15 @@ require "canary/version"
 program :version, Canary::VERSION
 program :description, "CLI application that will allow us to test an EDR agent and ensure it generates the appropriate telemetry."
 
-command :start_test do |c|
-  c.syntax = "canary start_test"
+command :simulate_telemetry do |c|
+  c.syntax = "canary simulate_telemetry"
   c.summary = "Simulates activity detection and logs simulated events."
+  c.option "--cmd STRING", String, "A command to start a process (ex: ruby -v)"
   c.action do |args, options|
+    options.default \
+      cmd: "ruby -v"
     puts "EDR Simulation: Starting..."
-    puts "Simulate: Starting Process"
-    puts "Simulate: Creating File"
-    puts "Simulate: Modifying File"
-    puts "Simulate: Deleting File"
-    puts "Simulate: Network Connection and Transmitting Data"
+    Canary::Simulator.new(command: options.cmd).simulate_all
     puts "EDR Simulation: Complete!"
   end
 end
