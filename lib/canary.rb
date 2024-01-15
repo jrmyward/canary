@@ -6,3 +6,6 @@ module Canary
   class Error < StandardError; end
   # Your code goes here...
 end
+
+require 'canary/simulator'
+require 'canary/process_simulator'
