@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+
+require "rubygems"
+require "commander/import"
+require "canary"
+require "canary/version"
+
+program :version, Canary::VERSION
+program :description, "CLI application that will allow us to test an EDR agent and ensure it generates the appropriate telemetry."
+
+command :start_test do |c|
+  c.syntax = "canary start_test"
+  c.summary = "Simulates activity detection and logs simulated events."
+  c.action do |args, options|
+    puts "EDR Simulation: Starting..."
+    puts "Simulate: Starting Process"
+    puts "Simulate: Creating File"
+    puts "Simulate: Modifying File"
+    puts "Simulate: Deleting File"
+    puts "Simulate: Network Connection and Transmitting Data"
+    puts "EDR Simulation: Complete!"
+  end
+end
