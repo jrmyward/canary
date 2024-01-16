@@ -8,4 +8,5 @@ module Canary
 end
 
 require 'canary/activity_initiator'
+require 'canary/file_activity_initiator'
 require 'canary/process_activity_initiator'
