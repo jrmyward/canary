@@ -17,6 +17,11 @@ module Canary
       puts "\nInitiate: Deleting File"
       initiate_file_deletion
       puts "\nInitiate: Network Connection and Transmitting Data"
+      initiate_data_transfer
+    end
+
+    def initiate_data_transfer
+      Canary::NetworkActivityInitiator.new.call
     end
 
     def initiate_file_creation
