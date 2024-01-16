@@ -6,8 +6,10 @@ RSpec.describe Canary::FileActivityInitiator do
   end
   let(:file) { "./tmp/test_file.txt" }
   let(:file_path) { File.expand_path(file) }
+  let(:logger) { Canary::ActivityLogger.new(log_file: log_file) }
+  let(:log_file) { File.expand_path('../../tmp/test_telemetry.log', __dir__) }
 
-  subject { described_class.new(file: file) }
+  subject { described_class.new(file: file, logger: logger) }
 
   after do
     File.delete(file_path) if File.exists?(file_path)

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "canary"
+require "json"
 require "pry"
 
 RSpec.configure do |config|

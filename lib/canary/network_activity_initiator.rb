@@ -6,10 +6,11 @@ module Canary
   class NetworkActivityInitiator
     PROTOCOL = 'tcp'
 
-    attr_accessor :data, :hostname, :port
+    attr_accessor :data, :hostname, :logger, :port
 
-    def initialize
+    def initialize(logger:)
       @hostname = "www.google.com"
+      @logger = logger
       @port = 80
     end
 
@@ -23,7 +24,7 @@ module Canary
       bytes_sent = data.bytesize
 
       socket.close
-      log_entry(timestamp, dest_ip, dest_port, src_ip, src_port, bytes_sent)
+      logger.enqueue(log_activity(timestamp, dest_ip, dest_port, src_ip, src_port, bytes_sent))
     end
 
     private
@@ -36,14 +37,8 @@ module Canary
       "GET / HTTP/1.1\r\nHost:#{hostname}\r\n\r\n".encode
     end
 
-    def log_entry(timestamp, dest_ip, dest_port, src_ip, src_port, bytes_sent)
-      entry = log_activity(timestamp, dest_ip, dest_port, src_ip, src_port, bytes_sent)
-      puts entry
-      entry
-    end
-
     def log_activity(timestamp, dest_ip, dest_port, src_ip, src_port, bytes_sent)
-      log = {
+      {
         timestamp: timestamp,
         username: Etc.getlogin,
         pid: Process.pid,

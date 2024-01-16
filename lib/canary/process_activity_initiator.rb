@@ -4,21 +4,17 @@ require 'open3'
 
 module Canary
   class ProcessActivityInitiator
-    attr_accessor :command
+    attr_accessor :command, :logger
 
-    def initialize(command:)
+    def initialize(command:, logger:)
       @command = command
+      @logger = logger
     end
 
     def call
       timestamp = Time.now.utc
       stdout, stderr, status = Open3.capture3(command)
-
-      log_entry = log_call(timestamp, stdout, stderr, status)
-
-      puts log_entry
-
-      log_entry
+      logger.enqueue(log_activity(timestamp, stdout, stderr, status))
     end
 
     private
@@ -27,15 +23,13 @@ module Canary
       "#{$PROGRAM_NAME} #{ARGV.join(' ')}"
     end
 
-    def log_call(timestamp, stdout, stderr, status)
-      log = {
+    def log_activity(timestamp, stdout, stderr, status)
+      {
         timestamp: timestamp,
         username: Etc.getlogin,
         pid: Process.pid,
         process_name: $PROGRAM_NAME,
         process_cmd_line: current_process_cmd_line
-        # success: status.success?,
-        # output: status.success? ? stdout : stderr,
       }.to_json
     end
   end

@@ -7,8 +7,10 @@ RSpec.describe Canary::NetworkActivityInitiator do
       source_ip source_port bytes_sent protocol
     ]
   end
+  let(:logger) { Canary::ActivityLogger.new(log_file: log_file) }
+  let(:log_file) { File.expand_path('../../tmp/test_telemetry.log', __dir__) }
 
-  subject { described_class.new }
+  subject { described_class.new(logger: logger) }
 
   describe '#call' do
     it 'returns appropriate telemetry' do
