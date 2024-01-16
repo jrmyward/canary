@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-RSpec.describe Canary::Simulator do
+RSpec.describe Canary::ActivityInitiator do
   let(:command) { 'ls -l' }
 
   subject { described_class.new(command: command) }
 
-  # describe '#simulate_all' do
+  # describe '#initiate_all' do
 
   # end
 end

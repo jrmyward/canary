@@ -3,7 +3,7 @@ require 'json'
 require 'open3'
 
 module Canary
-  class ProcessSimulator
+  class ProcessActivityInitiator
     attr_accessor :command
 
     def initialize(command:)

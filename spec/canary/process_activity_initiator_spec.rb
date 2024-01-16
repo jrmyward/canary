@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Canary::ProcessSimulator do
+RSpec.describe Canary::ProcessActivityInitiator do
   let(:command) { 'ls -l' }
 
   subject { described_class.new(command: command) }

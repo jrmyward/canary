@@ -7,5 +7,5 @@ module Canary
   # Your code goes here...
 end
 
-require 'canary/simulator'
-require 'canary/process_simulator'
+require 'canary/activity_initiator'
+require 'canary/process_activity_initiator'
