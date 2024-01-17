@@ -3,22 +3,22 @@
 Canary is a Ruby gem CLI program that initiates activity and records associated telemetry in a log
 file. The program will:
 
-    - Start a process given an executable file and the desired (optional) command-line arguments
-    - Create a file given a specified location, file name, and file type
-    - Modify the given file
-    - Delete the given file
-    - Establish a network connection and transmit data
+- Start a process given an executable file and the desired (optional) command-line arguments
+- Create a file given a specified location, file name, and file type
+- Modify the given file
+- Delete the given file
+- Establish a network connection and transmit data
 
 This program allows us to test an EDR agent and verify it generates the appropriate telemetry.
 
 ## Compatibility
 
-    - Linux
-    - MacOS
+- Linux
+- MacOS
 
 ## Installation
 
-This application is not intended to be an "official" ruby gem. Therefor, to install it, you simply
+This application is not intended to be an "official" ruby gem. Therefore, to install it, you simply
 need to clone the repository:
 
     $ git clone git@github.com:jrmyward/canary.git
@@ -57,17 +57,45 @@ The core functionality of this application exists in the various initiators. The
 
 ### Process Activity
 
-The `ProcessActivityInitiator` class is responsible for initiating a process activity, executing a specified command, and recording telemetry data related to the process. The call method executes the command using `Open3`.`capture3`, captures output and status, and logs telemetry data by enqueuing the log entry using the provided logger. The telemetry data includes timestamp, username, process ID, process name, and the command line used to initiate the process. The class is designed for integration with an activity logger to maintain a record of executed processes and their details.
+The `ProcessActivityInitiator` class is responsible for initiating a process activity, executing a specified command, and recording telemetry data related to the process. The call method executes the command using `Open3`.`capture3`, captures output and status, and logs telemetry data by enqueuing the log entry using the provided logger. The class is designed for integration with an activity logger to maintain a record of executed processes and their details. The telemetry data includes:
+
+- timestamp
+- username
+- pid
+- process_name
+- process_cmd_line
 
 Currently, the process metadata (id, name, cmd_line) are associtated with initiating program, that is the Canary gem itself. `Open3` gives us a `stauts` object where we can obtain the spawned process' `pid` and we can intuit the `process_cmd_line` from the given command. However, `Open3` does not provide a means of obtaining the `process_name`.
 
 ### File Activity
 
-The `FileActivityInitiator` class is designed to perform various activities on a specified file, such as creating, deleting, and modifying its content. The class utilizes an instance of `ActivityLogger` to record telemetry data for each activity. Public methods (`create_file`, `delete_file`, `modify_file`) perform the respective activities, log the telemetry data, and enqueue the log entry using the provided logger. The telemetry data includes timestamp, username, process ID, process name, command line, file path, and the type of file activity.
+The `FileActivityInitiator` class is designed to perform various activities on a specified file, such as creating, deleting, and modifying its content. The class utilizes an instance of `ActivityLogger` to record telemetry data for each activity. Public methods (`create_file`, `delete_file`, `modify_file`) perform the respective activities, log the telemetry data, and enqueue the log entry using the provided logger. The telemetry data includes: 
+
+- timestamp
+- username
+- pid
+- process_name
+- process_cmd_line
+- file_path
+- activity.
 
 ### Network Activity
 
-The `NetworkActivityInitiator` class is designed to perform network activities by establishing a TCP socket connection to a specified hostname and port and sending data over the connection. Telemetry data for the network activity is collected and logged using an instance of `ActivityLogger`. The telemetry data includes timestamp, username, process ID, process name, command line, destination and source IP addresses, ports, bytes sent, and the network protocol.
+The `NetworkActivityInitiator` class is designed to perform network activities by establishing a TCP socket connection to a specified hostname and port and sending data over the connection. Telemetry data for the network activity is collected and logged using an instance of `ActivityLogger`. The telemetry data includes:
+
+- timestamp
+- username
+- pid
+- process_name
+- process_cmd_line
+- destination_ip
+- destination_port
+- source_ip
+- source_port
+- bytes_sent
+- protocol
+
+*NOTE:* the log entry for a network connection protocol will always be `tcp`
 
 ### Logging
 
