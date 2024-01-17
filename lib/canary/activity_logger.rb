@@ -12,6 +12,8 @@ module Canary
     end
 
     def record_entries
+      return if @entries.empty?
+
       File.open(log_file, 'a') do |file|
         @entries.each do |entry|
           file.puts(entry)
