@@ -12,9 +12,6 @@ RSpec.describe Canary::ProcessActivityInitiator do
 
   describe '#call' do
     it 'returns process metadata' do
-      allow(Open3).to receive(:capture3).and_return(['output', '', double(success?: true)])
-      allow(Etc).to receive(:getlogin).and_return('user')
-
       expect(JSON.parse(subject.call).keys.sort).to eq(expected_log_keys.sort)
     end
   end
