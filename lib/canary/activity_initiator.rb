@@ -48,7 +48,7 @@ module Canary
     private
 
     def file_activity_initiator
-      file_activity_initiator ||= Canary::FileActivityInitiator.new(file: file, logger: logger)
+      @file_activity_initiator ||= Canary::FileActivityInitiator.new(file: file, logger: logger)
     end
   end
 end
